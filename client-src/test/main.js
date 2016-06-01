@@ -8,7 +8,12 @@ import { addTodo, toggleTodo, setVisibilityFilter, VisibilityFilters } from './.
 
 import todoApp from './../reducers/reducers'
 
-let store = createStore(todoApp);
+let store = createStore(todoApp , {
+    todos : [],
+    visibilityFilter : VisibilityFilters.SHOW_ALL
+},
+    window.devToolsExtension && window.devToolsExtension()
+);
 
 let unsubscribe = store.subscribe(() =>
     console.log(store.getState())

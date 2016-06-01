@@ -7,7 +7,7 @@ module.exports = {
 
         'webpack-dev-server/client?http://localhost:4000',
         'webpack/hot/only-dev-server',
-        './client-src/test/main.js'
+        './client-src/index.js'
     ],
     output: {
         path: path.join(__dirname, 'public'),
@@ -31,7 +31,7 @@ module.exports = {
 
                 loaders: [
                     'react-hot',
-                    'babel?presets[]=react,presets[]=es2015'
+                    'babel?presets[]=react,presets[]=es2015,presets[]=stage-0'
                 ]
             }
         ]
