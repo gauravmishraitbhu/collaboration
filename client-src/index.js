@@ -3,8 +3,8 @@ import ReactDOM from 'react-dom';
 
 import { createStore } from 'redux'
 import mainReducer from './reducers'
-import { Provider }  from './components/Provider'
-import  ChannelListContainer  from './components/leftsidebarcomponents/ChannelListContainer.react'
+import { Provider } from 'react-redux'
+import  ChannelListContainer  from './components/leftsidebarcomponents/containers/ChannelListContainer.react.js'
 
 
 let store = createStore(mainReducer , {
@@ -15,5 +15,7 @@ let store = createStore(mainReducer , {
 );
 
 ReactDOM.render(
-    <ChannelListContainer store={store} /> ,
+    <Provider store={store}>
+            <ChannelListContainer/>
+    </Provider> ,
     document.getElementById('main_div'));
