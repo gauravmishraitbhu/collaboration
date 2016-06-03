@@ -1,8 +1,26 @@
 body {
-  padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  margin: 0px;
 }
 
 a {
   color: #00B7FF;
+}
+
+#header{
+  height : 50px;
+  background-color: black;
+}
+
+.channel_list_container{
+  width: 250px;
+  position: relative;
+  background-color: darkgray;
+  height:800px;
+  padding: 15px;
+}
+
+.channel_name{
+  margin-bottom: 5px;
+  font-size: 20px;
 }

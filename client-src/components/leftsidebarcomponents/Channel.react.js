@@ -12,9 +12,9 @@ export default class Channel extends React.Component{
 
 
         return (
-            <li style={{fontSize:'25px'}}>
+            <div className="channel_name" style={{fontSize:'20px'}}>
                 {this.props.name}
-            </li>
+            </div>
         )
     }
 }

@@ -16,9 +16,11 @@ export default class ChannelList extends React.Component{
         })
 
         return (
-            <ul>
-                {channelList}
-            </ul>
+            <div className="channel_list_container">
+                <div className="channel_list">
+                    {channelList}
+                </div>
+            </div>
         )
     }
 }
