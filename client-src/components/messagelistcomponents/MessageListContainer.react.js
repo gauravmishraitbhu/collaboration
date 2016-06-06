@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux'
 import Message from './Message.react'
 
-export default class MessageListParent extends  React.Component{
+class MessageListParent extends  React.Component{
     static propTypes={
         selectedCategory : React.PropTypes.string.isRequired,
         messages : React.PropTypes.arrayOf(React.PropTypes.shape({

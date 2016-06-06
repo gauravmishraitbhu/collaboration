@@ -9,7 +9,7 @@ import { Provider } from 'react-redux'
 import App from './components/App'
 
 var initialData = {
-    channels : ['channel1' , ' channel2' , 'channel3' , 'channel4'],
+    channels : ['channel1' , 'channel2' , 'channel3' , 'channel4'],
     selectedChannel : 'channel1',
     selectedCategory : 'chats',
     dataByChannelId : {

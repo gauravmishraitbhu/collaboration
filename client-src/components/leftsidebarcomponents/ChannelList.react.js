@@ -6,13 +6,15 @@ import Channel from './Channel.react'
 export default class ChannelList extends React.Component{
 
     static propTypes = {
-        channels : React.PropTypes.array.isRequired
+        channels : React.PropTypes.array.isRequired,
+        onChannelSelected : React.PropTypes.func.isRequired
     }
 
     render(){
 
+        var that = this;
         var channelList = this.props.channels.map(function(channel){
-            return (<Channel key={channel} name={channel}/>)
+            return (<Channel key={channel} name={channel} onChannelSelected={that.props.onChannelSelected} />)
         })
 
         return (
