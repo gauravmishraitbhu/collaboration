@@ -13,7 +13,7 @@ a {
 }
 
 .channel_list_container{
-  width: 250px;
+  width: 220px;
   position: relative;
   background-color: darkgray;
   height:800px;
@@ -23,4 +23,27 @@ a {
 .channel_name{
   margin-bottom: 5px;
   font-size: 20px;
+  border-bottom: thin;
+}
+
+.message-container{
+  position: absolute;
+  left: 250px;
+  top: 50px;
+  width: 370px;
+  height: 800px;
+  background-color: rgba(200,200,200,0.2);
+  padding : 15px;
+}
+
+.message-card{
+  width: 100%;
+  font-size: 12pt;
+  margin: 10px;
+}
+
+.sender-name{
+  width: 100%;
+  font-size: 12pt;
+  font-weight: bold;
 }

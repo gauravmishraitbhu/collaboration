@@ -6,7 +6,7 @@ import { createStore } from 'redux'
 
 import { addTodo, toggleTodo, setVisibilityFilter, VisibilityFilters } from './../actions/action'
 
-import todoApp from './../reducers/reducers'
+import todoApp from './reducers'
 
 let store = createStore(todoApp , {
     todos : [],
