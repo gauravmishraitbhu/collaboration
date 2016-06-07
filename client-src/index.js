@@ -7,6 +7,7 @@ import createLogger from 'redux-logger'
 import mainReducer from './reducers'
 import { Provider } from 'react-redux'
 import App from './components/App'
+import PubnumChannelListener from './utils/PubnubChannelListener'
 
 var initialData = {
     channels : ['channel1' , 'channel2' , 'channel3' , 'channel4'],
@@ -114,6 +115,13 @@ let store = createStore(mainReducer ,
     )
 
 );
+
+var pubnumInstance = PUBNUB.init({
+    publish_key: 'pub-c-02b19d92-f815-4e44-92ea-af67f4e7e1e8',
+    subscribe_key: 'sub-c-27fcec44-2cb4-11e6-9327-02ee2ddab7fe'
+});
+
+new PubnumChannelListener(pubnumInstance ,store , "channel1" );
 
 ReactDOM.render(
     <Provider store={store}>

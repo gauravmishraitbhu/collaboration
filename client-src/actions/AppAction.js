@@ -6,3 +6,11 @@ export function selectChannel(channel){
         selectedChannel : channel
     }
 }
+
+export function addNewMessage(channel , message){
+    return {
+        type : ActionTypes.ADD_NEW_MESSAGE,
+        channel  : channel,
+        message : message
+    }
+}
