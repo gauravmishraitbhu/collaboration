@@ -9,13 +9,14 @@ export default class PubnubChannelListener {
         this.onMessage = this.onMessage.bind(this);
         pubnubInstance.subscribe({
             channel : channelName,
+            include_token : true,
             message : this.onMessage
         })
     }
 
-    onMessage(message){
-        console.log("recieved a message in chanel="+this.channelName)
-        console.log(message);
+    onMessage(message , envelop){
+
+        console.log(envelop[1]);
         this.store.dispatch(addNewMessage(this.channelName , message));
     }
 }

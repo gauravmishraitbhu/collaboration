@@ -9,7 +9,8 @@ import {selectChannel} from './../../../actions/AppAction'
 class ChannelListParent extends  React.Component{
     static propTypes={
         channels : React.PropTypes.array.isRequired,
-        dispatch : React.PropTypes.func.isRequired
+        dispatch : React.PropTypes.func.isRequired,
+        selectedChannel : React.PropTypes.string.isRequired
     }
 
     onChannelSelected = (selectedChannel)  => {
@@ -17,8 +18,10 @@ class ChannelListParent extends  React.Component{
     }
 
     render() {
+
+        const {selectedChannel , channels} = this.props;
         return (
-            <ChannelList channels={this.props.channels} onChannelSelected={this.onChannelSelected}/>
+            <ChannelList selectedChannel={selectedChannel} channels={channels} onChannelSelected={this.onChannelSelected}/>
             )
 
     }
@@ -27,7 +30,8 @@ class ChannelListParent extends  React.Component{
 
 const mapStateToProps = (state) => {
     return {
-        channels: state.channels
+        channels: state.channels,
+        selectedChannel : state.selectedChannel
     }
 }
 

@@ -7,14 +7,21 @@ export default class ChannelList extends React.Component{
 
     static propTypes = {
         channels : React.PropTypes.array.isRequired,
-        onChannelSelected : React.PropTypes.func.isRequired
+        onChannelSelected : React.PropTypes.func.isRequired,
+        selectedChannel : React.PropTypes.string.isRequired
     }
 
     render(){
 
         var that = this;
         var channelList = this.props.channels.map(function(channel){
-            return (<Channel key={channel} name={channel} onChannelSelected={that.props.onChannelSelected} />)
+
+            const { onChannelSelected , selectedChannel } = that.props;
+
+            let isSelected = (channel == selectedChannel)
+            return (<Channel isSelected={isSelected} key={channel}
+                             name={channel}
+                             onChannelSelected={onChannelSelected} />)
         })
 
         return (

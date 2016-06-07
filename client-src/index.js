@@ -8,7 +8,8 @@ import mainReducer from './reducers'
 import { Provider } from 'react-redux'
 import App from './components/App'
 import PubnumChannelListener from './utils/PubnubChannelListener'
-import {initialize as initMessagePublished} from './utils/PubnubMessagePublisher'
+import {initialize as initMessagePublisher} from './utils/PubnubMessagePublisher'
+import PubnubHistoryLoader from './utils/PubnubHistoryLoader'
 
 var initialData = {
     channels : ['channel1' , 'channel2' , 'channel3' , 'channel4'],
@@ -17,21 +18,21 @@ var initialData = {
     dataByChannelId : {
         channel1 : {
             chats : [
-                {
-                    text : "Service Foo. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod biben Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod biben."
-                },
-                {
-                    text : "Service Foo. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod biben Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod biben."
-                },
-                {
-                    text : "Service Foo. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod biben Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod biben."
-                },
-                {
-                    text : "Service Foo. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod biben Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod biben."
-                },
-                {
-                    text : "Service Foo. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod biben Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod biben."
-                }
+                //{
+                //    text : "Service Foo. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod biben Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod biben."
+                //},
+                //{
+                //    text : "Service Foo. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod biben Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod biben."
+                //},
+                //{
+                //    text : "Service Foo. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod biben Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod biben."
+                //},
+                //{
+                //    text : "Service Foo. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod biben Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod biben."
+                //},
+                //{
+                //    text : "Service Foo. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod biben Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod biben."
+                //}
             ],
             notifications : [
                 {
@@ -47,18 +48,7 @@ var initialData = {
         },
         channel2 : {
             chats : [
-                {
-                    text : "Message 1"
-                },
-                {
-                    text : "Message 2"
-                },
-                {
-                    text : "Message 3"
-                },
-                {
-                    text : "Message 4"
-                }
+
             ],
             notifications : [
                 {
@@ -74,15 +64,7 @@ var initialData = {
         },
         channel3 : {
             chats : [
-                {
-                    text : "Message 1"
-                },
-                {
-                    text : "Message 2"
-                },
-                {
-                    text : "Message 3"
-                }
+
             ],
             notifications : [
                 {
@@ -92,9 +74,7 @@ var initialData = {
         },
         channel4 : {
             chats : [
-                {
-                    text : "Message 1"
-                }
+
             ],
             notifications : [
                 {
@@ -123,18 +103,24 @@ let store = createStore(mainReducer ,
 
 );
 
-var pubnumInstance = PUBNUB.init({
-    publish_key: 'pub-c-02b19d92-f815-4e44-92ea-af67f4e7e1e8',
-    subscribe_key: 'sub-c-27fcec44-2cb4-11e6-9327-02ee2ddab7fe'
+var pubnubInstance = PUBNUB.init({
+    publish_key: 'pub-c-70c56c16-2d37-47df-9642-90a2e22ce164',
+    subscribe_key: 'sub-c-95dd1afa-2cea-11e6-9f24-02ee2ddab7fe'
 });
 
 var channeList = ["channel1" , "channel2" , "channel3" , "channel4"];
 
 channeList.forEach(function(channel){
-    new PubnumChannelListener(pubnumInstance ,store , channel );
+    new PubnumChannelListener(pubnubInstance ,store , channel );
 })
 
-initMessagePublished(pubnumInstance);
+channeList.forEach(function(channel){
+    new PubnubHistoryLoader(pubnubInstance , store , channel)
+})
+
+
+
+initMessagePublisher(pubnubInstance);
 
 ReactDOM.render(
     <Provider store={store}>

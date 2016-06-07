@@ -39,6 +39,16 @@ function dataByChannelId(data={} , action){
             })
             return newData;
         }
+        case ActionTypes.BOOTSTRAP_HISTORY:
+        {
+            var newData = Object.assign({} , data , {
+                [action.channel] : {
+                    chats : action.chats,
+                    notifications : action.notifications
+                }
+            })
+            return newData;
+        }
         default : {
             return data
         }

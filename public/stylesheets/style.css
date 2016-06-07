@@ -26,6 +26,10 @@ a {
   border-bottom: thin;
 }
 
+.channel_name.selected{
+  font-weight: bold;
+}
+
 .message-container{
   position: absolute;
   left: 250px;
