@@ -5,7 +5,16 @@ import ActionTypes from './../constants/ActionTypes'
 
 
 function selectedCategory(selectedCategory='chats' , action){
-    return selectedCategory;
+    switch (action.type){
+        case ActionTypes.SELECT_CATEGORY:
+        {
+            return action.category;
+        }
+        default:
+        {
+            return selectedCategory;
+        }
+    }
 }
 
 function addMessage(messagesByCategory = {} , action){

@@ -3,13 +3,15 @@ import ReactDOM from 'react-dom'
 import { connect } from 'react-redux'
 import Message from './Message.react'
 import ChatComponent from './ChatComponent.react'
-import {sendMessage as sendMessageToPubnub} from './../../actions/AppAction'
+import {sendMessage as sendMessageToPubnub,selectCategory} from './../../actions/AppAction'
+import MessageCategory from './MessageCategory.react'
 
 class MessageListParent extends  React.Component{
 
     constructor(props){
         super(props);
         this.sendMessage = this.sendMessage.bind(this);
+        this.selectCategory = this.selectCategory.bind(this);
     }
 
     static propTypes={
@@ -30,6 +32,11 @@ class MessageListParent extends  React.Component{
 
     }
 
+    selectCategory(newCategory){
+        const {dispatch} = this.props;
+        dispatch(selectCategory(newCategory))
+    }
+
     componentDidMount(){
         var node = ReactDOM.findDOMNode(this.refs.msg_list);
         node.scrollTop = node.scrollHeight
@@ -47,11 +54,12 @@ class MessageListParent extends  React.Component{
             return <Message text={message.text} key={index} />
         })
 
+        let isChatSelected = (this.props.selectedCategory == "chats")
         return (
             <div className="message-container">
                 <div className="message-category-selector">
-                    <div className="category_type">Chats</div>
-                    <div className="category_type">Notifications</div>
+                    <MessageCategory isCurrentSelection={isChatSelected} selectCategory={this.selectCategory.bind(this,"chats")}>Chats</MessageCategory>
+                    <MessageCategory isCurrentSelection={!isChatSelected} selectCategory={this.selectCategory.bind(this,"notifications")} >Notifications</MessageCategory>
                 </div>
                 <div className="message-container-inner" ref="msg_list">
                     {messages}

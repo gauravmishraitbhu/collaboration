@@ -20,3 +20,10 @@ export function addNewMessage(channel , message){
 export function sendMessage(channel , message){
     sendMsgToPubnub(channel , message);
 }
+
+export function selectCategory(newCategory){
+    return {
+        type : ActionTypes.SELECT_CATEGORY,
+        category : newCategory
+    }
+}
