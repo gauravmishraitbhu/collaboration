@@ -1,4 +1,5 @@
 import ActionTypes from './../constants/ActionTypes'
+import {sendMessage as sendMsgToPubnub} from './../utils/PubnubMessagePublisher'
 
 export function selectChannel(channel){
     return {
@@ -13,4 +14,9 @@ export function addNewMessage(channel , message){
         channel  : channel,
         message : message
     }
+}
+
+
+export function sendMessage(channel , message){
+    sendMsgToPubnub(channel , message);
 }

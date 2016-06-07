@@ -8,6 +8,7 @@ import mainReducer from './reducers'
 import { Provider } from 'react-redux'
 import App from './components/App'
 import PubnumChannelListener from './utils/PubnubChannelListener'
+import {initialize as initMessagePublished} from './utils/PubnubMessagePublisher'
 
 var initialData = {
     channels : ['channel1' , 'channel2' , 'channel3' , 'channel4'],
@@ -16,6 +17,12 @@ var initialData = {
     dataByChannelId : {
         channel1 : {
             chats : [
+                {
+                    text : "Service Foo. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod biben Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod biben."
+                },
+                {
+                    text : "Service Foo. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod biben Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod biben."
+                },
                 {
                     text : "Service Foo. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod biben Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod biben."
                 },
@@ -121,7 +128,13 @@ var pubnumInstance = PUBNUB.init({
     subscribe_key: 'sub-c-27fcec44-2cb4-11e6-9327-02ee2ddab7fe'
 });
 
-new PubnumChannelListener(pubnumInstance ,store , "channel1" );
+var channeList = ["channel1" , "channel2" , "channel3" , "channel4"];
+
+channeList.forEach(function(channel){
+    new PubnumChannelListener(pubnumInstance ,store , channel );
+})
+
+initMessagePublished(pubnumInstance);
 
 ReactDOM.render(
     <Provider store={store}>
