@@ -10,6 +10,8 @@ import App from './components/App'
 import PubnumChannelListener from './utils/PubnubChannelListener'
 import {initialize as initMessagePublisher} from './utils/PubnubMessagePublisher'
 import PubnubHistoryLoader from './utils/PubnubHistoryLoader'
+import { getRandomUser } from './utils/Users'
+import { setCurrentUser } from './utils/AppManager'
 
 var initialData = {
     channels : ['channel1' , 'channel2' , 'channel3' , 'channel4'],
@@ -102,6 +104,8 @@ let store = createStore(mainReducer ,
     )
 
 );
+
+setCurrentUser(getRandomUser());
 
 var pubnubInstance = PUBNUB.init({
     publish_key: 'pub-c-70c56c16-2d37-47df-9642-90a2e22ce164',

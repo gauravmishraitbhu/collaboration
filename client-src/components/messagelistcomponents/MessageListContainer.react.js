@@ -23,12 +23,9 @@ class MessageListParent extends  React.Component{
         dispatch : React.PropTypes.func.isRequired
     }
 
-    sendMessage(text){
-        var data = {
-            type : "chats",
-            text : text
-        }
-        sendMessageToPubnub(this.props.selectedChannel , data);
+    sendMessage(textMsg){
+
+        sendMessageToPubnub(this.props.selectedChannel , textMsg);
 
     }
 
@@ -51,7 +48,7 @@ class MessageListParent extends  React.Component{
 
         console.log(this.props);
         var messages = this.props.messages.map(function(message , index){
-            return <Message text={message.text} key={index} />
+            return <Message message={message} key={index} />
         })
 
         let isChatSelected = (this.props.selectedCategory == "chats")

@@ -1,5 +1,6 @@
 import ActionTypes from './../constants/ActionTypes'
 import {sendMessage as sendMsgToPubnub} from './../utils/PubnubMessagePublisher'
+import {getCurrentUser} from './../utils/AppManager'
 
 export function selectChannel(channel){
     return {
@@ -16,11 +17,9 @@ export function addNewMessage(channel , message){
     }
 }
 
-export function bootstrapFromHistory(channel , dataArray){
+export function bootstrapFromHistory(channel , messages){
 
-    var messages = dataArray.map(function(data){
-        return data.message;
-    })
+
     var chats = messages.filter(function(message){
 
         if(message.type == null){
@@ -43,7 +42,13 @@ export function bootstrapFromHistory(channel , dataArray){
 
 
 export function sendMessage(channel , message){
-    sendMsgToPubnub(channel , message);
+    var currentUserId = getCurrentUser().uuid;
+    var data = {
+        type : "chats",
+        text : message,
+        senderUUID : currentUserId
+    }
+    sendMsgToPubnub(channel , data);
 }
 
 export function selectCategory(newCategory){

@@ -1,4 +1,5 @@
 import {addNewMessage} from './../actions/AppAction'
+import {transformPubnubMessage} from './MessageUtils'
 
 export default class PubnubChannelListener {
 
@@ -17,6 +18,7 @@ export default class PubnubChannelListener {
     onMessage(message , envelop){
 
         console.log(envelop[1]);
-        this.store.dispatch(addNewMessage(this.channelName , message));
+        let appMessage = transformPubnubMessage(message ,envelop[1] , this.channelName );
+        this.store.dispatch(addNewMessage(this.channelName , appMessage));
     }
 }

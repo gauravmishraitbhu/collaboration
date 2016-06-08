@@ -1,5 +1,6 @@
 
 import {bootstrapFromHistory} from './../actions/AppAction'
+import {transformPubnubMessage} from './MessageUtils'
 
 export default class PubnubHistoryLoader {
     constructor(pubnubInst , store , channelName ){
@@ -20,7 +21,11 @@ export default class PubnubHistoryLoader {
     messagesLoaded(data){
         //console.log(data[0]);
 
-        this.store.dispatch( bootstrapFromHistory( this.channelName , data[0] ));
+        var that = this;
+        var messages = data[0].map(function(data){
+            return transformPubnubMessage ( data.message , data.timetoken , that.channelName) ;
+        })
+        this.store.dispatch( bootstrapFromHistory( this.channelName , messages ));
     }
 
 }
