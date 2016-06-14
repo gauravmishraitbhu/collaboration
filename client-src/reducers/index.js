@@ -2,6 +2,7 @@ import { combineReducers } from 'redux'
 import  { selectedChannel }  from './selectedChannel'
 import { channels } from './channelList'
 import ActionTypes from './../constants/ActionTypes'
+import {lastViewTsById as computeLastViewTs} from './lastViewTs'
 
 
 function selectedCategory(selectedCategory='chats' , action){
@@ -55,11 +56,41 @@ function dataByChannelId(data={} , action){
     }
 }
 
-const mainReducer = combineReducers({
-    selectedChannel,
-    channels,
-    selectedCategory,
-    dataByChannelId
-})
 
-export default mainReducer
+const mainReducer3 = function(state , action){
+    console.log(state);
+    const {lastViewTsById , ...rest} = state
+
+    console.log(rest);
+    var newState = Object.assign({} , state ,
+        combineReducers({
+            selectedChannel,
+            channels,
+            selectedCategory,
+            dataByChannelId
+        })(rest , action)
+    )
+
+    newState.lastViewTsById = computeLastViewTs(newState,action);
+    return newState;
+}
+
+//const mainReducer2 = function(state , action){
+//    return {
+//        selectedChannel : selectedChannel(state.selectedChannel,action),
+//        channels : channels(state.channels,action),
+//        selectedCategory : selectedCategory(state.selectedCategory,action),
+//        dataByChannelId : dataByChannelId(state.dataByChannelId,action),
+//        lastViewTsById : lastViewTsById(state,action)
+//    }
+//}
+
+//const mainReducer = combineReducers({
+//    selectedChannel,
+//    channels,
+//    selectedCategory,
+//    dataByChannelId,
+//    lastViewTsById
+//})
+
+export default mainReducer3

@@ -1,5 +1,6 @@
 import React from 'react'
 import { getUserNameFromUUID } from './../../utils/Users'
+import { getFormatedTime } from './../../utils/TimeUtils'
 
 export default class Message extends React.Component{
 
@@ -8,11 +9,16 @@ export default class Message extends React.Component{
     }
 
     render (){
-        const {text , senderUUID} = this.props.message;
+        const {text , senderUUID , time } = this.props.message;
         let userName = getUserNameFromUUID(senderUUID);
+        let dateStr = getFormatedTime(time);
         return (
             <div className="message-card">
-                <div className="sender-name"> {userName} </div>
+                <div>
+                    <span className="sender-name"> {userName} </span>
+                    <span className="message-date"> {dateStr} </span>
+                </div>
+
                 {text}
             </div>
         )

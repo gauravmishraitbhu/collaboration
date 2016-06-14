@@ -8,7 +8,8 @@ export default class ChannelList extends React.Component{
     static propTypes = {
         channels : React.PropTypes.array.isRequired,
         onChannelSelected : React.PropTypes.func.isRequired,
-        selectedChannel : React.PropTypes.string.isRequired
+        selectedChannel : React.PropTypes.string.isRequired,
+        unreadCountData : React.PropTypes.object.isRequired
     }
 
     render(){
@@ -16,11 +17,12 @@ export default class ChannelList extends React.Component{
         var that = this;
         var channelList = this.props.channels.map(function(channel){
 
-            const { onChannelSelected , selectedChannel } = that.props;
+            const { onChannelSelected , selectedChannel ,unreadCountData} = that.props;
 
             let isSelected = (channel == selectedChannel)
             return (<Channel isSelected={isSelected} key={channel}
                              name={channel}
+                             unreadCount={unreadCountData[channel]}
                              onChannelSelected={onChannelSelected} />)
         })
 

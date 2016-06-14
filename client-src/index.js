@@ -17,6 +17,12 @@ var initialData = {
     channels : ['channel1' , 'channel2' , 'channel3' , 'channel4'],
     selectedChannel : 'channel1',
     selectedCategory : 'chats',
+    lastViewTsById : {
+        channel1 : 0,
+        channel2 : 0,
+        channel3 : 0,
+        channel4 : 0
+    },
     dataByChannelId : {
         channel1 : {
             chats : [

@@ -8,7 +8,8 @@ export default class Channel extends React.Component{
     static propTypes = {
         name : React.PropTypes.string.isRequired,
         onChannelSelected : React.PropTypes.func.isRequired,
-        isSelected : React.PropTypes.bool.isRequired
+        isSelected : React.PropTypes.bool.isRequired,
+        unreadCount : React.PropTypes.number.isRequired
     }
 
 
@@ -23,9 +24,25 @@ export default class Channel extends React.Component{
             "channel_name" : true,
             "selected" : this.props.isSelected
         })
+
+        const {unreadCount , name } = this.props;
+        if(unreadCount > 0){
+            var undreadCountNode = (
+                <div className="channel-unread-counter">
+                    {this.props.unreadCount}
+                </div>
+            );
+        }else{
+            var undreadCountNode = null;
+        }
+
+
         return (
-            <div className={channelNameClass} style={{fontSize:'20px'}} onClick={this.handleClick}>
-                {this.props.name}
+            <div className="channel-tile-container">
+                <div className={channelNameClass} style={{fontSize:'20px'}} onClick={this.handleClick}>
+                    {this.props.name}
+                </div>
+                {undreadCountNode}
             </div>
         )
     }
