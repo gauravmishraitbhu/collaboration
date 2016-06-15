@@ -32,13 +32,13 @@ class ChannelListParent extends  React.Component{
 }
 
 function getUnreadCounts(state){
-    var channels = state.channels;
+    var channels = Object.keys(state.dataByChannelId);
 
     var unreadCounterById = {};
     channels.forEach(function(channel){
-        var messageData = state.dataByChannelId[channel];
-        var messages = [...messageData["chats"] , ...messageData["notifications"] ] ;
-        var lastReadTs = state.lastViewTsById[channel];
+        var channelData = state.dataByChannelId[channel];
+        var messages = [...channelData["chats"] , ...channelData["notifications"] ] ;
+        var lastReadTs = channelData.lastViewTs;
 
         let counter = 0;
         messages.forEach(function(message){
@@ -54,7 +54,7 @@ function getUnreadCounts(state){
 
 const mapStateToProps = (state) => {
     return {
-        channels: state.channels,
+        channels: Object.keys(state.dataByChannelId),
         selectedChannel : state.selectedChannel,
         unreadCountData : getUnreadCounts(state)
     }

@@ -20,8 +20,8 @@ function selectedCategory(selectedCategory='chats' , action){
 
 function addMessage(messagesByCategory = {} , action){
     var messageType = action.message.type;
-    console.log(messageType);
-    console.log(messagesByCategory)
+    //console.log(messageType);
+    //console.log(messagesByCategory)
     var newMessageData = Object.assign({} , messagesByCategory , {
         [messageType] : [...messagesByCategory[messageType] , action.message ]
     })
@@ -42,10 +42,13 @@ function dataByChannelId(data={} , action){
         }
         case ActionTypes.BOOTSTRAP_HISTORY:
         {
+            var projects = data[action.channel].projects;
             var newData = Object.assign({} , data , {
                 [action.channel] : {
                     chats : action.chats,
-                    notifications : action.notifications
+                    notifications : action.notifications,
+                    lastViewTs : 0,
+                    projects : projects
                 }
             })
             return newData;
@@ -57,23 +60,23 @@ function dataByChannelId(data={} , action){
 }
 
 
-const mainReducer3 = function(state , action){
-    console.log(state);
-    const {lastViewTsById , ...rest} = state
-
-    console.log(rest);
-    var newState = Object.assign({} , state ,
-        combineReducers({
-            selectedChannel,
-            channels,
-            selectedCategory,
-            dataByChannelId
-        })(rest , action)
-    )
-
-    newState.lastViewTsById = computeLastViewTs(newState,action);
-    return newState;
-}
+//const mainReducer3 = function(state , action){
+//    console.log(state);
+//    const {lastViewTsById , ...rest} = state
+//
+//    console.log(rest);
+//    var newState = Object.assign({} , state ,
+//        combineReducers({
+//            selectedChannel,
+//            channels,
+//            selectedCategory,
+//            dataByChannelId
+//        })(rest , action)
+//    )
+//
+//    newState.lastViewTsById = computeLastViewTs(newState,action);
+//    return newState;
+//}
 
 //const mainReducer2 = function(state , action){
 //    return {
@@ -85,12 +88,10 @@ const mainReducer3 = function(state , action){
 //    }
 //}
 
-//const mainReducer = combineReducers({
-//    selectedChannel,
-//    channels,
-//    selectedCategory,
-//    dataByChannelId,
-//    lastViewTsById
-//})
+const mainReducer = combineReducers({
+    selectedChannel,
+    selectedCategory,
+    dataByChannelId
+})
 
-export default mainReducer3
+export default mainReducer

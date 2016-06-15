@@ -39,7 +39,7 @@ export default class Channel extends React.Component{
 
         return (
             <div className="channel-tile-container">
-                <div className={channelNameClass} style={{fontSize:'20px'}} onClick={this.handleClick}>
+                <div className={channelNameClass} onClick={this.handleClick}>
                     {this.props.name}
                 </div>
                 {undreadCountNode}

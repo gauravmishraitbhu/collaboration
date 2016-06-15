@@ -12,128 +12,187 @@ import {initialize as initMessagePublisher} from './utils/PubnubMessagePublisher
 import PubnubHistoryLoader from './utils/PubnubHistoryLoader'
 import { getRandomUser } from './utils/Users'
 import { setCurrentUser } from './utils/AppManager'
+import {clientListAndProjectP} from './utils/PortalDataLoader'
 
-var initialData = {
-    channels : ['channel1' , 'channel2' , 'channel3' , 'channel4'],
-    selectedChannel : 'channel1',
-    selectedCategory : 'chats',
-    lastViewTsById : {
-        channel1 : 0,
-        channel2 : 0,
-        channel3 : 0,
-        channel4 : 0
-    },
-    dataByChannelId : {
-        channel1 : {
-            chats : [
-                //{
-                //    text : "Service Foo. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod biben Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod biben."
-                //},
-                //{
-                //    text : "Service Foo. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod biben Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod biben."
-                //},
-                //{
-                //    text : "Service Foo. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod biben Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod biben."
-                //},
-                //{
-                //    text : "Service Foo. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod biben Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod biben."
-                //},
-                //{
-                //    text : "Service Foo. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod biben Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod biben."
-                //}
-            ],
-            notifications : [
-                {
-                    text : "Notification 1"
-                },
-                {
-                    text : "Notification 2"
-                },
-                {
-                    text : "Notification 3"
-                }
-            ]
-        },
-        channel2 : {
-            chats : [
+//var initialData = {
+//    channels : ['channel1' , 'channel2' , 'channel3' , 'channel4'],
+//    selectedChannel : 'channel1',
+//    selectedCategory : 'chats',
+//    lastViewTsById : {
+//        channel1 : 0,
+//        channel2 : 0,
+//        channel3 : 0,
+//        channel4 : 0
+//    },
+//    dataByChannelId : {
+//        channel1 : {
+//            chats : [
+//                //{
+//                //    text : "Service Foo. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod biben Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod biben."
+//                //},
+//                //{
+//                //    text : "Service Foo. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod biben Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod biben."
+//                //},
+//                //{
+//                //    text : "Service Foo. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod biben Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod biben."
+//                //},
+//                //{
+//                //    text : "Service Foo. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod biben Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod biben."
+//                //},
+//                //{
+//                //    text : "Service Foo. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod biben Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod biben."
+//                //}
+//            ],
+//            notifications : [
+//                {
+//                    text : "Notification 1"
+//                },
+//                {
+//                    text : "Notification 2"
+//                },
+//                {
+//                    text : "Notification 3"
+//                }
+//            ]
+//        },
+//        channel2 : {
+//            chats : [
+//
+//            ],
+//            notifications : [
+//                {
+//                    text : "Notification 1"
+//                },
+//                {
+//                    text : "Notification 2"
+//                },
+//                {
+//                    text : "Notification 3"
+//                }
+//            ]
+//        },
+//        channel3 : {
+//            chats : [
+//
+//            ],
+//            notifications : [
+//                {
+//                    text : "Notification 1"
+//                }
+//            ]
+//        },
+//        channel4 : {
+//            chats : [
+//
+//            ],
+//            notifications : [
+//                {
+//                    text : "Notification 1"
+//                },
+//                {
+//                    text : "Notification 2"
+//                },
+//                {
+//                    text : "Notification 3"
+//                }
+//            ]
+//        }
+//    }
+//}
 
-            ],
-            notifications : [
-                {
-                    text : "Notification 1"
-                },
-                {
-                    text : "Notification 2"
-                },
-                {
-                    text : "Notification 3"
-                }
-            ]
-        },
-        channel3 : {
-            chats : [
-
-            ],
-            notifications : [
-                {
-                    text : "Notification 1"
-                }
-            ]
-        },
-        channel4 : {
-            chats : [
-
-            ],
-            notifications : [
-                {
-                    text : "Notification 1"
-                },
-                {
-                    text : "Notification 2"
-                },
-                {
-                    text : "Notification 3"
-                }
-            ]
-        }
+function prepareSingleChannelData(clientInstance , projectData){
+    return {
+        id : clientInstance.id,
+        lastViewTs : 0,
+        chats : [],
+        notifications : [],
+        projects : []
     }
 }
 
-const loggerMiddleware = createLogger()
 
-let store = createStore(mainReducer ,
-    initialData,
-    compose(
-        applyMiddleware(thunkMiddleware , loggerMiddleware),
+function generateInitialData(clientData , clientToProjectMapping){
+    var initialData = {
+        selectedChannel : Object.keys(clientData)[0],
+        selectedCategory : 'chats',
+        dataByChannelId : {
 
-        window.devToolsExtension && window.devToolsExtension()
-    )
+        }
+    };
 
-);
+    var dataByChannelId = {};
+    Object.keys(clientData).forEach(function(clientName){
+        var clientInstance = clientData[clientName];
+        var projectData = clientToProjectMapping[clientInstance.id];
 
-setCurrentUser(getRandomUser());
+        dataByChannelId[clientName] = prepareSingleChannelData(clientInstance , projectData);
+    })
 
-var pubnubInstance = PUBNUB.init({
-    publish_key: 'pub-c-70c56c16-2d37-47df-9642-90a2e22ce164',
-    subscribe_key: 'sub-c-95dd1afa-2cea-11e6-9f24-02ee2ddab7fe'
-});
+    initialData.dataByChannelId = dataByChannelId;
 
-var channeList = ["channel1" , "channel2" , "channel3" , "channel4"];
+    return initialData;
+}
 
-channeList.forEach(function(channel){
-    new PubnumChannelListener(pubnubInstance ,store , channel );
-})
+console.log("i m ahere");
 
-channeList.forEach(function(channel){
-    new PubnubHistoryLoader(pubnubInstance , store , channel)
-})
+clientListAndProjectP(24)
+.then(function(data){
+
+    console.log("i m ahere  2");
+    // client name to client instance
+    var clientData = data.clientData;
+
+    //mapping clientId to project
+    var clientToProjectMapping = data.clientIdToProjectMap;
+    var channelList = Object.keys(clientData);
+
+    const loggerMiddleware = createLogger()
+
+    var initialData = generateInitialData(clientData ,clientToProjectMapping );
+
+    let store = createStore(mainReducer ,
+        initialData,
+        compose(
+            applyMiddleware(thunkMiddleware , loggerMiddleware),
+
+            window.devToolsExtension && window.devToolsExtension()
+        )
+
+    );
+
+    setCurrentUser(getRandomUser());
 
 
+    var pubnubInstance = PUBNUB.init({
+        publish_key: 'pub-c-70c56c16-2d37-47df-9642-90a2e22ce164',
+        subscribe_key: 'sub-c-95dd1afa-2cea-11e6-9f24-02ee2ddab7fe'
+    });
 
-initMessagePublisher(pubnubInstance);
+    channelList.forEach(function(channel){
+        new PubnumChannelListener(pubnubInstance ,store , channel );
+    })
 
-ReactDOM.render(
-    <Provider store={store}>
+    channelList.forEach(function(channel){
+        new PubnubHistoryLoader(pubnubInstance , store , channel)
+    })
+
+    initMessagePublisher(pubnubInstance);
+
+    ReactDOM.render(
+        <Provider store={store}>
             <App/>
-    </Provider> ,
-    document.getElementById('main_div'));
+        </Provider> ,
+        document.getElementById('main_div'));
+
+})
+
+
+
+
+
+
+
+
+
+
+
