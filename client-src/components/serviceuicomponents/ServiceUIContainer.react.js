@@ -20,6 +20,7 @@ class ServiceUIParent extends React.Component{
 
         this.selectProject = this.selectProject.bind(this);
         this.setTweenedState = this.setTweenedState.bind(this);
+        this.onBackClicked = this.onBackClicked.bind(this);
     }
 
     static propTypes = {
@@ -29,6 +30,13 @@ class ServiceUIParent extends React.Component{
 
     setTweenedState(){
         this.setState({...this.state , left : this.tweenState.left})
+    }
+
+    onBackClicked(){
+        this.setState({
+            selectedProject : null,
+            left : 0
+        })
     }
 
     selectProject(project){
@@ -62,12 +70,14 @@ class ServiceUIParent extends React.Component{
             serviceDetailStyle.display = "block";
             serviceDetailStyle.left =  this.state.left;
 
-            serviceDetailNode = <ServiceDetailView style={serviceDetailStyle} />
+            serviceDetailNode = <ServiceDetailView style={serviceDetailStyle}
+            project = {this.state.selectedProject} />
         }
 
         return (
             <div className="serviceui-container">
-                <ServiceTopBar selectedProject={this.state.selectedProject}></ServiceTopBar>
+                <ServiceTopBar selectedProject={this.state.selectedProject}
+                               onBackClicked={this.onBackClicked}/>
 
                 {serviceDetailNode}
                 <ServiceTilesContainer projectList={ this.props.projectList }
