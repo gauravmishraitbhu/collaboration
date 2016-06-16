@@ -22,7 +22,7 @@ a {
 
 .channel_name{
 
-  font-size: 17px;
+  font-size: 16px;
   border-bottom: thin;
   cursor: pointer;
   float: left;
@@ -54,12 +54,13 @@ a {
 
 .message-container{
   position: absolute;
-  left: 250px;
+  left: 220px;
   top: 50px;
   width: 350px;
   height: 550px;
   background-color: rgba(200,200,200,0.2);
   padding : 15px;
+  padding-top: 0px;
 }
 
 .message-card{
@@ -125,4 +126,79 @@ a {
 .message-date{
   font-size: 8pt;
   color:rgba(100,100,100,1)
+}
+
+
+
+/*service ui related */
+
+.serviceui-container{
+  position: absolute;
+  background-color: rgba(200,200,200,0.3);
+  top:50px;
+  left:570px;
+  height:550px;
+  width: 700px;
+  border: thin;
+  border-style: solid;
+  border-top:none;
+  border-bottom: none;
+}
+
+.service-topbar{
+  width: 100%;
+  height: 50px;
+  box-shadow: 3px 3px 15px #888888;
+}
+
+#service-label{
+  font-weight: bold;
+  font-size : 15pt;
+  padding: 13px;
+  padding-left: 20px;
+}
+
+.service-tiles-container{
+  width: 100%;
+  padding-top: 20px;
+}
+
+.service-tile {
+  min-height: 100px;
+  width: 200px;
+  background-color:rgba(200,200,200,0.5);
+  margin:10px;
+  box-shadow: 2px 2px 4px #888888;
+  float: left;
+  padding: 5px;
+}
+
+.tile-project-name{
+  color: #00B7FF;
+}
+
+.tile-start-date-label {
+  font-size: 12px;
+}
+
+.tile-start-date {
+  font-size: 14px;
+  color: #00B7FF;
+}
+
+.centered-project-status-container{
+  text-align: center;
+
+}
+
+.tile-project-status-container{
+  display: inline-block;
+}
+
+.project-status-box{
+  height: 25px;
+  width: 35px;
+  /*border: thin;*/
+  /*border-style: solid;*/
+  float: left;
 }

@@ -106,7 +106,7 @@ function prepareSingleChannelData(clientInstance , projectData){
         lastViewTs : 0,
         chats : [],
         notifications : [],
-        projects : []
+        projects : projectData
     }
 }
 
@@ -133,12 +133,12 @@ function generateInitialData(clientData , clientToProjectMapping){
     return initialData;
 }
 
-console.log("i m ahere");
+console.log("i m here")
 
 clientListAndProjectP(24)
 .then(function(data){
 
-    console.log("i m ahere  2");
+    console.log("got data from backend")
     // client name to client instance
     var clientData = data.clientData;
 

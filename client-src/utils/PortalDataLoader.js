@@ -6,7 +6,7 @@ export function clientListAndProjectP(partnerId){
     console.log("here 3")
     var clientList = null;
     var promise1 = new Promise(function(resolve,reject){
-        request.get('http://localhost:8000/api/client_list/'+partnerId)
+        request.get('http://localhost:8000/api/client_list/24')
         .end(function(err , res){
             if(err){
                 reject(err);
@@ -18,13 +18,15 @@ export function clientListAndProjectP(partnerId){
     })
 
     var projects = null;
+    var projectStages = null
     var promise2 = new Promise(function(resolve , reject){
-        request.get('http://localhost:8000/api/project_list/'+partnerId)
+        request.get('http://localhost:8000/api/project_list/24')
         .end(function(err , res){
             if(err){
                 reject(err);
             }else{
-                projects = res.body;
+                projects = res.body.projectList;
+                projectStages = res.body.projectStageData
                 resolve();
             }
         })
@@ -44,6 +46,8 @@ export function clientListAndProjectP(partnerId){
             if(clientIdToProjectMap[project.client] == null){
                 throw new Error("client id missing --"+project.client);
             }
+            project.stages = projectStages[project.id]
+
             clientIdToProjectMap[project.client].push(project);
         })
         return {

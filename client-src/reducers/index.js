@@ -45,12 +45,39 @@ function dataByChannelId(data={} , action){
             var projects = data[action.channel].projects;
             var newData = Object.assign({} , data , {
                 [action.channel] : {
+                    id : data[action.channel].id,
                     chats : action.chats,
                     notifications : action.notifications,
                     lastViewTs : 0,
                     projects : projects
                 }
             })
+            return newData;
+        }
+        case ActionTypes.SELECT_CHANNEL:
+        {
+            let channel = action.selectedChannel;
+            let channelData = data[channel]
+
+            //concat the arrays of messages
+            let messages = [...channelData["chats"] , ...channelData["notifications"]]
+            let highestTs = -1;
+            messages.forEach(function(message){
+                if(message.time > highestTs){
+                    highestTs = message.time;
+                }
+            })
+
+            var newData =  {...data,
+                [channel] : {
+                    lastViewTs : highestTs,
+                    projects : channelData.projects,
+                    chats : channelData.chats,
+                    notifications : channelData.notifications,
+                    id : channelData.id
+                }
+            }
+
             return newData;
         }
         default : {
