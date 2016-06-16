@@ -3,8 +3,19 @@ import ServiceTileProjectStatus from './ServiceTileProjectStatus.react'
 
 export default class ServiceTile extends React.Component {
 
+    constructor(props){
+        super(props);
+        this.handleClick = this.handleClick.bind(this)
+    }
+
+    handleClick(){
+        console.log("handle click")
+        this.props.selectProjectCB(this.props.project);
+    }
+
     static propTypes = {
-        project : React.PropTypes.object.isRequired
+        project : React.PropTypes.object.isRequired,
+        selectProjectCB : React.PropTypes.func.isRequired
     }
 
     render(){
@@ -25,7 +36,7 @@ export default class ServiceTile extends React.Component {
             startDate = actual_start_date;
         }
         return (
-            <div className="service-tile">
+            <div className="service-tile" onClick={this.handleClick}>
                 <div className="tile-project-name">
                     {serviceName}
                 </div>
