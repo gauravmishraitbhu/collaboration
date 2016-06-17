@@ -261,6 +261,7 @@ a {
   height: 30px;
   background-color: gray;
   text-align: center;
+  cursor: pointer;
 }
 
 .project-stage-tile.completed{
@@ -301,7 +302,29 @@ a {
 
 }
 
+.project-task-tile{
+  border: 1px solid gray;
+  border-radius: 5px;
+  padding: 5px;
+  margin-bottom: 5px;
+}
+
 .project-stage-tile-name{
 
   display: inline-block;
+}
+
+.project-task-tile-name{
+  display: inline-block;
+}
+
+.project-task-tile-right-div{
+  display: inline-block;
+  float: right;
+}
+
+.start-task-btn{
+  float: right;
+  margin-right: 10px;
+  cursor: pointer;
 }
