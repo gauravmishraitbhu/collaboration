@@ -17,7 +17,7 @@ export default class ProjectTaskListComponent extends React.Component {
             return <ProjectTaskTile task={task} key={index}/>
         })
         return (
-            <ul>
+            <ul className="project-task-list">
                 {taskLists}
             </ul>
         )

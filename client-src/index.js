@@ -153,7 +153,7 @@ clientListAndProjectP(24)
     let store = createStore(mainReducer ,
         initialData,
         compose(
-            applyMiddleware(thunkMiddleware , loggerMiddleware),
+            applyMiddleware(thunkMiddleware),
 
             window.devToolsExtension && window.devToolsExtension()
         )

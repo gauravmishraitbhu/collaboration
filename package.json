@@ -17,6 +17,8 @@
     "jade": "~1.11.0",
     "morgan": "~1.6.1",
     "react": "^0.14.7",
+    "react-bootstrap": "^0.29.5",
+    "react-bootstrap-select": "^0.14.0",
     "react-dom": "^0.14.7",
     "react-redux": "^4.4.5",
     "redux": "^3.5.2",
