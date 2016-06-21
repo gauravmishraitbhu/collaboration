@@ -9,8 +9,7 @@ export default class ServiceTile extends React.Component {
     }
 
     handleClick(){
-        console.log("handle click")
-        this.props.selectProjectCB(this.props.project);
+        this.props.selectProjectCB(this.props.project.id);
     }
 
     static propTypes = {

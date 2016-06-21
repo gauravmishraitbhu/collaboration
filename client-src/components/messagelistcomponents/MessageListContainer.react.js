@@ -46,7 +46,7 @@ class MessageListParent extends  React.Component{
 
     render(){
 
-        console.log(this.props);
+        //console.log(this.props);
         var messages = this.props.messages.map(function(message , index){
             return <Message message={message} key={index} />
         })

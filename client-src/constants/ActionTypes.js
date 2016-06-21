@@ -5,6 +5,7 @@ var ActionTypes = keymirror({
     ADD_NEW_MESSAGE : null,
     SELECT_CATEGORY : null,
     BOOTSTRAP_HISTORY : null,
+    CHANGE_TASK_STATUS : null
 })
 
 export default ActionTypes;

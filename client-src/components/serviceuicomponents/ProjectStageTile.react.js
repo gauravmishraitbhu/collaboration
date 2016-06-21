@@ -28,7 +28,13 @@ export default class ProjectStageTile extends React.Component{
                 "project-stage-tile" : true,
                 "completed" : true
             })
-        }else{
+        }else if(status == 1){
+            tileClass = classNames({
+                "project-stage-tile" : true,
+                "in-progress" : true
+            })
+        }
+        else{
             tileClass = classNames({
                 "project-stage-tile" : true,
                 "completed" : false

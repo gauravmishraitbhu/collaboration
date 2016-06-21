@@ -1,6 +1,7 @@
 import ActionTypes from './../constants/ActionTypes'
 import {sendMessage as sendMsgToPubnub} from './../utils/PubnubMessagePublisher'
 import {getCurrentUser} from './../utils/AppManager'
+import {updateTaskStatusP} from './../utils/PortalApis'
 
 export function selectChannel(channel){
     return {
@@ -56,4 +57,29 @@ export function selectCategory(newCategory){
         type : ActionTypes.SELECT_CATEGORY,
         category : newCategory
     }
+}
+
+export function changeTaskStatus(projectId , taskId , newStatus){
+    return function(dispatch , getState){
+
+        var selectedChannel = getState().selectedChannel;
+
+        updateTaskStatusP(taskId , newStatus)
+        .then(function(success){
+            if(success){
+                dispatch({
+                    type : ActionTypes.CHANGE_TASK_STATUS,
+                    projectId : projectId,
+                    selectedChannel ,selectedChannel,
+                    taskId : taskId,
+                    status : newStatus
+                })
+            }else{
+                console.log("changeTaskStatus failed")
+            }
+        })
+
+
+    }
+
 }

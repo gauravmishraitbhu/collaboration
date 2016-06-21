@@ -3,6 +3,7 @@ import  { selectedChannel }  from './selectedChannel'
 import { channels } from './channelList'
 import ActionTypes from './../constants/ActionTypes'
 import {lastViewTsById as computeLastViewTs} from './lastViewTs'
+import {getProjectList} from './projectData'
 
 
 function selectedCategory(selectedCategory='chats' , action){
@@ -26,6 +27,17 @@ function addMessage(messagesByCategory = {} , action){
         [messageType] : [...messagesByCategory[messageType] , action.message ]
     })
     return newMessageData;
+}
+
+function getChannelData(channelData={} , action){
+    var newData = {
+        lastViewTs : channelData.lastViewTs,
+        projects : getProjectList(channelData.projects , action),
+        chats : channelData.chats,
+        notifications : channelData.notifications,
+        id : channelData.id
+    }
+    return newData;
 }
 
 function dataByChannelId(data={} , action){
@@ -78,6 +90,14 @@ function dataByChannelId(data={} , action){
                 }
             }
 
+            return newData;
+        }
+        case ActionTypes.CHANGE_TASK_STATUS:
+        {
+            var newData = {...data,
+                [action.selectedChannel] : getChannelData(data[action.selectedChannel] , action)
+
+            }
             return newData;
         }
         default : {

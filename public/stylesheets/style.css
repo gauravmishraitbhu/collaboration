@@ -268,12 +268,16 @@ a {
   background-color: green;
 }
 
+.project-stage-tile.in-progress{
+  background-color: lightgreen;
+}
+
 .project-stage-details-container .project-stage-tile:after{
   content: "";
-  height: 30px;
-  width: 30px;
-  left:68px;
-  top:6px;
+  height: 36px;
+  width: 36px;
+  left:51px;
+  top:7px;
   border-top:2px white solid;
   border-right:2px white solid;
 
@@ -285,6 +289,10 @@ a {
 
 .project-stage-details-container .project-stage-tile.completed:after{
   background-color: green;
+}
+
+.project-stage-details-container .project-stage-tile.in-progress:after{
+  background-color: lightgreen;
 }
 
 .project-stage-details-container .project-stage-tile:last-child:after{
@@ -311,10 +319,11 @@ a {
   border-radius: 5px;
   padding: 5px;
   margin-bottom: 5px;
+  height: 45px;
 }
 
 .project-stage-tile-name{
-
+  width: 120px;
   display: inline-block;
 }
 

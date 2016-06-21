@@ -1,6 +1,7 @@
 import React from 'react'
 import {DropdownButton , MenuItem , ButtonToolbar , Dropdown} from 'react-bootstrap'
-import Select from 'react-bootstrap-select'
+//import Select from 'react-bootstrap-select'
+import Select from 'react-select'
 
 export default class DropDownWidget extends React.Component{
 
@@ -26,46 +27,69 @@ export default class DropDownWidget extends React.Component{
     static propTypes = {
         divId : React.PropTypes.string.isRequired,
         optionKeyToNameMapping : React.PropTypes.object.isRequired,
-        onOptionSelected : React.PropTypes.func.isRequired
+        onOptionSelected : React.PropTypes.func.isRequired,
+        label : React.PropTypes.string,
+        defaultSelectedKey : React.PropTypes.string,
+        width : React.PropTypes.number
     }
 
 
 
-    onOptionChange(e){
+    onOptionChange(newKey){
         let {divId,onOptionSelected,optionKeyToNameMapping}  = this.props;
-        var value = $("#"+divId).selectpicker('val')
+        //var value = $("#"+divId).selectpicker('val')
+        //
+        //var selectedKey = null;
+        //Object.keys(optionKeyToNameMapping).forEach(function(optionKey){
+        //    if(value == optionKeyToNameMapping[optionKey]){
+        //        selectedKey = optionKey;
+        //    }
+        //})
 
-        var selectedKey = null;
-        Object.keys(optionKeyToNameMapping).forEach(function(optionKey){
-            if(value == optionKeyToNameMapping[optionKey]){
-                selectedKey = optionKey;
-            }
-        })
-
-        onOptionSelected(selectedKey)
+        onOptionSelected(newKey)
     }
 
     render(){
-        const {optionKeyToNameMapping,divId} = this.props;
-        var options = null;
-        options = Object.keys(optionKeyToNameMapping).map(function(optionKey , index){
+        const {optionKeyToNameMapping,divId,defaultSelectedKey,width} = this.props;
+
+        if(!width){
+            var componentWidth = 200;
+        }else{
+            var componentWidth = width
+        }
+
+        if(defaultSelectedKey == null){
+            var defaultKey = Object.keys(optionKeyToNameMapping)[0];
+        }else{
+            var defaultKey = defaultSelectedKey;
+        }
+
+        var options = [];
+        Object.keys(optionKeyToNameMapping).forEach(function(optionKey , index){
             var optionName = optionKeyToNameMapping[optionKey];
             return (
-                <option key={index}>{optionName}</option>
+                options.push({
+                    value : optionKey,
+                    label : optionName
+                })
             )
 
         })
 
-        var defaultKey = Object.keys(optionKeyToNameMapping)[0];
         var defaultVal = optionKeyToNameMapping[defaultKey]
 
         return (
             <div>
-                <div style={{top:"10px","marginRight":"10px",display:"inline-block"}}><b>Select Device:</b></div>
-                <div style={{width:"150px",display:"inline-block"}}>
-                    <select className="selectPicker form-control input-small" id={divId} defaultValue={defaultVal}>
-                        {options}
-                    </select>
+                <div style={{position:"relative",top:"-10px","marginRight":"10px",display:"inline-block"}}><b>{this.props.label}</b></div>
+                <div style={{width:componentWidth+"px",display:"inline-block"}}>
+                    <Select
+                        name={divId}
+                        searchable={false}
+                        clearable={false}
+                        value={defaultVal}
+                        options={options}
+                        onChange={this.onOptionChange}
+                    />
                 </div>
             </div>
         )

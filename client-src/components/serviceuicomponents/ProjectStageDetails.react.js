@@ -2,31 +2,56 @@ import React from 'react'
 import ProjectStageTile from './ProjectStageTile.react'
 import ProjectTaskListComponent from './ProjectTaskListComponent.react'
 import DropDownWidget from './../common/DropDownWidget.react'
+import {changeTaskStatus as changeProjectTaskStaus} from './../../actions/AppAction'
 export default class ProjectStageDetails extends React.Component{
     constructor(props){
         super(props);
         this.state = {
             selectedStageId : props.projectStages[0].id,
-            selectedDeviceNum : 0
+            selectedDeviceId : 0
         }
         this.selectProjectStage = this.selectProjectStage.bind(this);
         this.selectSkuDevice = this.selectSkuDevice.bind(this);
+        this.changeTaskStatus = this.changeTaskStatus.bind(this);
+    }
+
+    componentDidMount(){
+
     }
 
     static propTypes = {
+        projectId : React.PropTypes.number.isRequired,
         projectStages : React.PropTypes.array.isRequired,
-        deviceCount : React.PropTypes.number
+        deviceCount : React.PropTypes.number,
+        dispatch : React.PropTypes.func.isRequired
+    }
+
+    changeTaskStatus(taskId , newStatus){
+        let {projectId,dispatch} = this.props;
+        dispatch(changeProjectTaskStaus(projectId ,taskId , newStatus));
     }
 
     selectProjectStage(stageId){
+
+        var that = this;
+        var selectedStage = this.props.projectStages.filter(function(stage){
+            return stage.id == stageId
+        })[0]
+
+        var selectedSkuDeviceId = 0;
+        if(!selectedStage.isProjectLevel && selectedStage.stage_seq_num != 1){
+            selectedSkuDeviceId = selectedStage.tasks[0].sku_device;
+        }
+
         this.setState({...this.state,
-            selectedStageId : stageId
+            selectedStageId : stageId,
+            selectedDeviceId : selectedSkuDeviceId
         })
     }
 
-    selectSkuDevice(deviceNum){
+    selectSkuDevice(deviceId){
         this.setState({...this.state,
-            selectedDeviceNum : deviceNum
+            selectedDeviceId : deviceId
         })
     }
 
@@ -54,25 +79,36 @@ export default class ProjectStageDetails extends React.Component{
             var endDate = "not started";
         }
 
-        var optionKeyToNameMapping = {};
-        for(var i = 1 ; i <= this.props.deviceCount ; i++){
-            optionKeyToNameMapping[i-1] = i.toString();
-        }
+
 
         var skuDeviceNode = null;
         var tasksToDisplay = null
         if(!selectedStage.isProjectLevel && selectedStage.stage_seq_num != 1){
+
+            var optionKeyToNameMapping = {};
+            var deviceCounter = 1;
+            for(var i = 0 ; i < selectedStage.tasks.length ; i++){
+                if(optionKeyToNameMapping[selectedStage.tasks[i].sku_device] == null){
+                    optionKeyToNameMapping[selectedStage.tasks[i].sku_device] = deviceCounter.toString();
+                    deviceCounter++;
+                }
+
+            }
+
+
             skuDeviceNode = (<DropDownWidget divId={"project-stage-sku-device-selector"}
+                                             label = {"Select Device:"}
                                             optionKeyToNameMapping={optionKeyToNameMapping}
                                             onOptionSelected={this.selectSkuDevice}/>)
             tasksToDisplay = []
             var deviceCount = this.props.deviceCount;
-            var selectedDeviceNum = this.state.selectedDeviceNum;
+            var selectedDeviceId = this.state.selectedDeviceId;
 
-            for(var i = selectedDeviceNum ; i<selectedStage.tasks.length ;){
-                tasksToDisplay.push(selectedStage.tasks[i])
-                i += deviceCount;
-            }
+            selectedStage.tasks.forEach(function(task){
+                if(task.sku_device == selectedDeviceId){
+                    tasksToDisplay.push(task);
+                }
+            })
 
 
         }else{
@@ -93,7 +129,9 @@ export default class ProjectStageDetails extends React.Component{
                     <b>Tasks For </b> <i>{selectedStage.stage_name}</i> :
                     {skuDeviceNode}
                 </div>
-                <ProjectTaskListComponent tasks={tasksToDisplay} stageSeqNumber={selectedStage.stage_seq_num}/>
+                <ProjectTaskListComponent tasks={tasksToDisplay}
+                                          changeTaskStatus={this.changeTaskStatus}
+                                           stageSeqNumber={selectedStage.stage_seq_num} />
             </div>
         )
     }

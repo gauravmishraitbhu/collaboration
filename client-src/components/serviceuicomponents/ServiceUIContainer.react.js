@@ -34,14 +34,14 @@ class ServiceUIParent extends React.Component{
 
     onBackClicked(){
         this.setState({
-            selectedProject : null,
+            selectedProjectId : null,
             left : 0
         })
     }
 
-    selectProject(project){
+    selectProject(projectId){
         this.setState({
-            selectedProject : project,
+            selectedProjectId : projectId,
             left : 700
         })
         this.tweenState.left = 700;
@@ -65,18 +65,24 @@ class ServiceUIParent extends React.Component{
 
         var serviceDetailStyle = {};
         var serviceDetailNode = null;
+        var {projectList} = this.props;
+        var selectedProjectId = this.state.selectedProjectId;
+        
+        var selectedProject = projectList.filter(function(project){
+            return project.id == selectedProjectId
+        })[0]
 
-        if(this.state.selectedProject != null){
+        if(selectedProject != null){
             serviceDetailStyle.display = "block";
             serviceDetailStyle.left =  this.state.left;
 
-            serviceDetailNode = <ServiceDetailView style={serviceDetailStyle}
-            project = {this.state.selectedProject} />
+            serviceDetailNode = <ServiceDetailView style={serviceDetailStyle} dispatch={this.props.dispatch}
+            project = {selectedProject} />
         }
 
         return (
             <div className="serviceui-container">
-                <ServiceTopBar selectedProject={this.state.selectedProject}
+                <ServiceTopBar selectedProject={selectedProject}
                                onBackClicked={this.onBackClicked}/>
 
                 {serviceDetailNode}
