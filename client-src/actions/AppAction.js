@@ -2,6 +2,7 @@ import ActionTypes from './../constants/ActionTypes'
 import {sendMessage as sendMsgToPubnub} from './../utils/PubnubMessagePublisher'
 import {getCurrentUser} from './../utils/AppManager'
 import {updateTaskStatusP} from './../utils/PortalApis'
+import {generateTaskStatusChange} from './../utils/NotificationHelper'
 
 export function selectChannel(channel){
     return {
@@ -61,8 +62,34 @@ export function selectCategory(newCategory){
 
 export function changeTaskStatus(projectId , taskId , newStatus){
     return function(dispatch , getState){
+        var state = getState();
+        var selectedChannel = state.selectedChannel;
+        var channelData = state.dataByChannelId[selectedChannel];
+        var projectList = channelData.projects;
 
-        var selectedChannel = getState().selectedChannel;
+        var updatedTask = null;
+        var projectName = null;
+        var taskName = null;
+        projectList.forEach(function(project){
+            if(project.stages){
+                project.stages.forEach(function(stage){
+
+                    if(stage.tasks){
+                        stage.tasks.forEach(function(task){
+                            if(task.id == taskId){
+                                updatedTask = task;
+                                projectName = project.service_name;
+                                taskName = updatedTask.task_name;
+                            }
+                        })
+                    }
+
+                })
+            }
+
+        })
+
+        var oldStatus = updatedTask.status;
 
         updateTaskStatusP(taskId , newStatus)
         .then(function(success){
@@ -77,6 +104,8 @@ export function changeTaskStatus(projectId , taskId , newStatus){
             }else{
                 console.log("changeTaskStatus failed")
             }
+
+            generateTaskStatusChange(selectedChannel,projectId,projectName,taskId,taskName,oldStatus , newStatus);
         })
 
 

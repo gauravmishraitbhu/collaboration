@@ -133,7 +133,6 @@ function generateInitialData(clientData , clientToProjectMapping){
     return initialData;
 }
 
-console.log("i m here")
 
 clientListAndProjectP(24)
 .then(function(data){
